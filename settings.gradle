@@ -1,0 +1,9 @@
+include 'agent-manager-common'
+include 'agent-manager-server'
+include 'agent-manager-service'
+
+rootProject.children.each { project ->
+    project.buildFileName = "${project.name}.gradle"
+    assert project.projectDir.isDirectory()
+    assert project.buildFile.isFile()
+}

@@ -1,0 +1,27 @@
+apply plugin: 'idea'
+
+allprojects {
+    repositories {
+        mavenCentral()
+        mavenLocal()
+        mavenRepo name: 'jboss-nexus', urls: "https://repository.jboss.org/nexus/content/groups/public/"
+   }
+}
+
+ideaProject {
+    javaVersion = "1.6"
+    withXml { provider ->
+        def node = provider.asNode()
+        def vcsConfig = node.component.find { it.'@name' == 'VcsDirectoryMappings' }
+        vcsConfig.mapping[0].'@vcs' = 'Git'
+    }
+    beforeConfigured { module ->
+        module.modulePaths.removeAll { it.filePath.endsWith('hibernate-core.iml') }
+    }
+}
+
+ideaModule {
+    moduleName = 'agent-manager'
+}
+
+dependsOnChildren()

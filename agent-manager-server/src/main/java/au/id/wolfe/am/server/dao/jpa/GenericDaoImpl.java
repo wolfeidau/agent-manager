@@ -1,6 +1,6 @@
-package au.id.wolfe.am.server.data.jpa;
+package au.id.wolfe.am.server.dao.jpa;
 
-import au.id.wolfe.am.server.data.GenericDao;
+import au.id.wolfe.am.server.dao.GenericDao;
 import com.google.common.collect.Sets;
 
 import javax.persistence.EntityManager;

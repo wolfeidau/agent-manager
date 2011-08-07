@@ -1,4 +1,4 @@
-package au.id.wolfe.am.server.data;
+package au.id.wolfe.am.server.dao;
 
 import java.io.Serializable;
 import java.util.Set;

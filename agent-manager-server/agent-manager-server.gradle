@@ -12,6 +12,7 @@ dependencies {
     compile(libraries.validation)
     compile(libraries.google_collections)
     compile(libraries.commons_lang)
+    compile(libraries.dozer)
     testRuntime(libraries.h2)
 }
 

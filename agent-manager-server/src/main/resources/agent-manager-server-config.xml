@@ -41,6 +41,14 @@
 
     <tx:annotation-driven />
 
-    <context:component-scan base-package="au.id.wolfe.am.server.data" />
+    <context:component-scan base-package="au.id.wolfe.am.server.dao" />
+
+    <bean id="mapper" class="org.dozer.DozerBeanMapper">
+        <property name="mappingFiles">
+            <list>
+                <value></value>
+            </list>
+        </property>
+            </bean>
 
 </beans>

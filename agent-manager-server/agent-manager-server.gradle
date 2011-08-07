@@ -1,1 +1,41 @@
 apply plugin: 'java'
+
+
+dependencies {
+    compile project(':agent-manager-common')
+    compile(libraries.spring_orm)
+    compile(libraries.jta)
+    compile(libraries.hibernate_core)
+    compile(libraries.hibernate_c3p0)
+    compile(libraries.hibernate_validator)
+    compile(libraries.hibernate_entity_manager)
+    compile(libraries.validation)
+    compile(libraries.google_collections)
+    compile(libraries.commons_lang)
+    testRuntime(libraries.h2)
+}
+
+configurations {
+    integrationTestCompile { extendsFrom compile }
+    integrationTestRuntime { extendsFrom integrationTestCompile, runtime }
+}
+sourceSets {
+    integrationTest {
+        compileClasspath = sourceSets.main.classes + configurations.testRuntime
+        runtimeClasspath = classes + sourceSets.main.classes + configurations.testRuntime
+    }
+}
+
+task integrationTest(type: Test) {
+    testClassesDir = sourceSets.integrationTest.classesDir
+    classpath = sourceSets.integrationTest.runtimeClasspath
+}
+
+idea {
+    module {
+        testSourceDirs += file('src/integrationTest/java')
+        testSourceDirs += file('src/integrationTest/resources')
+    }
+}
+
+check.dependsOn integrationTest

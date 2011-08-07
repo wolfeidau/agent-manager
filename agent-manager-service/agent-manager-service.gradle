@@ -1,2 +1,16 @@
 apply plugin: 'war'
 apply plugin: 'jetty'
+
+
+dependencies {
+    compile project(':agent-manager-common')
+    compile project(':agent-manager-server')
+    compile(libraries.cxf_rt_core)
+    compile(libraries.cxf_rt_frontend_jaxws)
+    compile(libraries.cxf_rt_frontend_jaxrs)
+    compile(libraries.cxf_rt_transports_http)
+    compile(libraries.cxf_rt_ws_security)
+    compile(libraries.spring_web)
+    compile(libraries.servlet_api) { provided = true }
+    compile(libraries.slf4j_log4j12)
+}

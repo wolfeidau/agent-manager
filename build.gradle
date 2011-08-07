@@ -1,11 +1,12 @@
 apply plugin: 'idea'
 
+
 allprojects {
     repositories {
         mavenCentral()
         mavenLocal()
         mavenRepo name: 'jboss-nexus', urls: "https://repository.jboss.org/nexus/content/groups/public/"
-   }
+    }
 }
 
 ideaProject {
@@ -22,6 +23,100 @@ ideaProject {
 
 ideaModule {
     moduleName = 'agent-manager'
+}
+
+slf4jVersion = '1.6.1'
+springVersion = '3.0.5.RELEASE'
+apacheCXFVersion = '2.4.1'
+servletApiVersion = '2.5'
+hibernateVersion = '3.6.6.Final'
+
+libraries = [
+        // spring IOC
+        spring_core: "org.springframework:spring-core:$springVersion",
+        spring_web: "org.springframework:spring-web:$springVersion",
+        spring_orm: "org.springframework:spring-orm:$springVersion",
+
+        // hibernate
+        jta: 'javax.transaction:jta:1.1',
+        validation: 'javax.validation:validation-api:1.0.0.GA',
+        hibernate_validator: "org.hibernate:hibernate-validator:4.2.0.Final",
+        hibernate_core: "org.hibernate:hibernate-core:$hibernateVersion",
+        hibernate_c3p0: "org.hibernate:hibernate-c3p0:$hibernateVersion",
+        hibernate_entity_manager: "org.hibernate:hibernate-entitymanager:$hibernateVersion",
+
+        // h2
+        h2: 'com.h2database:h2:1.2.145',
+
+        // Apache CXF
+        cxf_rt_core: "org.apache.cxf:cxf-rt-core:$apacheCXFVersion",
+        cxf_rt_frontend_jaxws: "org.apache.cxf:cxf-rt-frontend-jaxws:$apacheCXFVersion", // Web Services
+        cxf_rt_frontend_jaxrs: "org.apache.cxf:cxf-rt-frontend-jaxrs:$apacheCXFVersion", // REST Services
+        cxf_rt_transports_http: "org.apache.cxf:cxf-rt-transports-http:$apacheCXFVersion",
+        cxf_rt_ws_security: "org.apache.cxf:cxf-rt-ws-security:$apacheCXFVersion",
+
+        // google collections
+        google_collections : 'com.google.collections:google-collections:1.0',
+
+        // commons lang
+        commons_lang: 'commons-lang:commons-lang:2.6',
+
+        // dozer
+        dozer: 'net.sf.dozer:dozer:5.3.2',
+
+        // Servlet API
+        servlet_api: "javax.servlet:servlet-api:$servletApiVersion",
+
+        // logging
+        slf4j_api: "org.slf4j:slf4j-api:$slf4jVersion",
+        slf4j_log4j12: "org.slf4j:slf4j-log4j12:$slf4jVersion",
+        jcl_slf4j: "org.slf4j:jcl-over-slf4j:$slf4jVersion",
+
+        // testing
+        junit: 'junit:junit:4.8.2',
+        mockito: 'org.mockito:mockito-all:1.9.0-rc1',
+        spring_test: "org.springframework:spring-test:$springVersion",
+]
+
+subprojects { subProject ->
+    apply plugin: 'java'
+    apply plugin: 'idea'
+
+    defaultTasks 'build'
+
+    group = 'au.id.wolfe'
+    version = '1.0.0-SNAPSHOT'
+
+    // minimize changes, at least for now (gradle uses 'build' by default)..
+    buildDir = "target"
+
+    if (!subProject.name.startsWith('release') && !subProject.name.startsWith('documentation')) {
+
+        apply plugin: 'java'
+        apply plugin: 'maven' // for install task as well as deploy dependencies
+
+        configurations {
+            compile
+            runtime
+            all*.exclude group: 'commons-logging' // this is where we exclude
+        }
+
+        // appropriately inject the common dependencies into each sub-project
+        dependencies {
+            compile(libraries.spring_core)
+            testCompile(libraries.junit)
+            testCompile(libraries.spring_test)
+            testRuntime(libraries.slf4j_api)
+            testRuntime(libraries.slf4j_log4j12)
+            testRuntime(libraries.jcl_slf4j)
+            testRuntime(libraries.mockito)
+        }
+
+        targetCompatibility = "1.6"
+        sourceCompatibility = "1.6"
+
+
+    }
 }
 
 dependsOnChildren()

@@ -1,0 +1,42 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:cxf="http://cxf.apache.org/core"
+       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+		http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
+
+    <import resource="classpath:META-INF/cxf/cxf.xml"/>
+    <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
+
+    <bean id="loggingInInterceptor" class="org.apache.cxf.interceptor.LoggingInInterceptor"/>
+    <bean id="loggingOutInterceptor" class="org.apache.cxf.interceptor.LoggingOutInterceptor"/>
+
+    <cxf:bus>
+
+        <cxf:inInterceptors>
+            <ref bean="loggingInInterceptor"/>
+        </cxf:inInterceptors>
+
+        <cxf:outInterceptors>
+            <ref bean="loggingOutInterceptor"/>
+        </cxf:outInterceptors>
+
+    </cxf:bus>
+
+    <jaxrs:server id="agentRestService" address="/resource">
+         <jaxrs:serviceBeans>
+             <bean class="au.id.wolfe.am.service.restservice.agent.DefaultAgentRestService"/>
+         </jaxrs:serviceBeans>
+    </jaxrs:server>
+
+    <!-- HTTP Endpoint -->
+    <jaxws:endpoint
+            id="agentWebService"
+            implementor="au.id.wolfe.am.service.webservice.agent.DefaultAgentWebService"
+            address="/agentService">
+    </jaxws:endpoint>
+
+</beans>

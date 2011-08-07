@@ -18,3 +18,7 @@ I plan to add some additional examples these are:
 * Using YAML for fixtures rather than Java classes with static data.
 * JaspCrypt password and data encryption.
 * SPOCK tests using groovy
+
+TODO:
+
+* Need to bind the DAO to the webservice tier.

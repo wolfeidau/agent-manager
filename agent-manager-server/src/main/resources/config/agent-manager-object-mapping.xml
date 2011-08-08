@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+    <configuration>
+        <stop-on-errors>true</stop-on-errors>
+        <date-format>MM/dd/yyyy HH:mm</date-format>
+        <wildcard>true</wildcard>
+    </configuration>
+
+    <mapping type="one-way">
+        <class-a>au.id.wolfe.am.server.domain.Agent</class-a>
+        <class-b is-accessible="true">au.id.wolfe.am.server.service.api.AgentData</class-b>
+        <field>
+            <a>id</a>
+            <b>agentId</b>
+        </field>
+    </mapping>
+
+</mappings>

@@ -7,13 +7,16 @@ import java.io.Serializable;
  */
 public class AgentData implements Serializable{
 
-    public Long Id;
+    public Long agentId;
     public String agentKey;
     public String location;
     public String businessName;
 
-    public AgentData(Long id, String agentKey, String location, String businessName) {
-        Id = id;
+    public AgentData() {
+    }
+
+    public AgentData(Long agentId, String agentKey, String location, String businessName) {
+        this.agentId = agentId;
         this.agentKey = agentKey;
         this.location = location;
         this.businessName = businessName;

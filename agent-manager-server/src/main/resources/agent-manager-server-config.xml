@@ -46,7 +46,7 @@
     <bean id="mapper" class="org.dozer.DozerBeanMapper">
         <property name="mappingFiles">
             <list>
-                <value></value>
+                <value>/config/agent-manager-object-mapping.xml</value>
             </list>
         </property>
             </bean>
